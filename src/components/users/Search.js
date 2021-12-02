@@ -1,12 +1,13 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
-export default function Search() {
+const Search = ({ searchUsers }) => {
   const [text, setText] = useState("");
 
   const handleChange = (e) => setText(e.target.value);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(text);
+    searchUsers(text);
   };
 
   return (
@@ -23,4 +24,10 @@ export default function Search() {
       </form>
     </div>
   );
-}
+};
+
+Search.propTypes = {
+  searchUsers: PropTypes.func.isRequired,
+};
+
+export default Search;

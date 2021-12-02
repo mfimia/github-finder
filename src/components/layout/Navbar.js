@@ -11,8 +11,8 @@ const Navbar = ({ title = "Github Finder", icon = "fab fa-github" }) => {
   );
 };
 Navbar.propTypes = {
-  title: PropTypes.string,
-  icon: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
 };
 
 export default Navbar;

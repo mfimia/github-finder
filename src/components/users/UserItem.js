@@ -1,4 +1,6 @@
-export default function UserItem({ user }) {
+import PropTypes from "prop-types";
+
+const UserItem = ({ user }) => {
   const { login, avatar_url, link_url } = user;
   return (
     <div className="card text-center">
@@ -16,4 +18,10 @@ export default function UserItem({ user }) {
       </div>
     </div>
   );
-}
+};
+
+UserItem.propTypes = {
+  user: PropTypes.object.isRequired,
+};
+
+export default UserItem;

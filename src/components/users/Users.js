@@ -1,8 +1,9 @@
 import UserItem from "./UserItem";
 import Spinner from "../layout/Spinner";
 import { Fragment } from "react";
+import PropTypes from "prop-types";
 
-export default function Users({ users, loading }) {
+const Users = ({ users, loading }) => {
   const userStyle = {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
@@ -15,4 +16,11 @@ export default function Users({ users, loading }) {
       {loading ? <Spinner /> : <div style={userStyle}>{userCards}</div>}
     </Fragment>
   );
-}
+};
+
+Users.propTypes = {
+  users: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
+};
+
+export default Users;

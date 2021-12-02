@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 
 const UserItem = ({ user }) => {
   const { login, avatar_url, link_url } = user;
+
   return (
     <div className="card text-center">
       <img

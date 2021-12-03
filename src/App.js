@@ -1,8 +1,10 @@
 import "./App.css";
+import React, { Fragment, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Users from "./components/users/Users";
 import Search from "./components/users/Search";
-import { useState } from "react";
+import About from "./components/pages/About";
 import axios from "axios";
 import Alert from "./components/users/Alert";
 
@@ -32,18 +34,31 @@ export default function App() {
   };
 
   return (
-    <div className="App">
-      <Navbar />
-      <div className="container">
-        <Alert alert={alert} />
-        <Search
-          searchUsers={searchUsers}
-          clearUsers={clearUsers}
-          users={users}
-          displayAlert={displayAlert}
-        />
-        <Users loading={loading} users={users} />
+    <Router>
+      <div className="App">
+        <Navbar />
+        <div className="container">
+          <Alert alert={alert} />
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                <Fragment>
+                  <Search
+                    searchUsers={searchUsers}
+                    clearUsers={clearUsers}
+                    users={users}
+                    displayAlert={displayAlert}
+                  />
+                  <Users loading={loading} users={users} />
+                </Fragment>
+              }
+            />
+            <Route excact path="/about" element={<About />} />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </Router>
   );
 }

@@ -17,19 +17,6 @@ export default function App() {
   const [user, setUser] = useState({});
   const [repos, setRepos] = useState([]);
 
-  // Search GitHub users via GitHub API
-  const searchUsers = (text) => {
-    setLoading(true);
-    axios
-      .get(
-        `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
-      )
-      .then((res) => {
-        setUsers(res.data.items);
-        setLoading(false);
-      });
-  };
-
   // Get single GitHub user via GitHub API
   const getUser = async (username) => {
     setLoading(true);
@@ -73,7 +60,6 @@ export default function App() {
                 element={
                   <Fragment>
                     <Search
-                      searchUsers={searchUsers}
                       clearUsers={clearUsers}
                       users={users}
                       displayAlert={displayAlert}

@@ -11,6 +11,7 @@ import {
   GET_REPOS,
 } from "../types";
 
+// We declare a global state that we are going to be able to use everywhere in the app
 const GithubState = (props) => {
   const initialState = {
     users: [],
@@ -19,9 +20,27 @@ const GithubState = (props) => {
     loading: false,
   };
 
+  // We declare a reducer
   const [state, dispatch] = useReducer(GithubReducer, initialState);
 
+  // ----------------------
+  // Every action thata involves the state is declared below
+  // ----------------------
+
   // Search Users
+  const searchUsers = (text) => {
+    setLoading();
+    axios
+      .get(
+        `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+      )
+      .then((res) => {
+        dispatch({
+          type: SEARCH_USERS,
+          payload: res.data.items,
+        });
+      });
+  };
 
   // Get User
 
@@ -30,7 +49,10 @@ const GithubState = (props) => {
   // Clear Users
 
   // Set Loading
+  const setLoading = () => dispatch({ type: SET_LOADING });
 
+  // We return a context provider with the values that are going to be passed
+  // We reflect the children inside it to tell react that there is going to be stuff inside there
   return (
     <GithubContext.Provider
       value={{
@@ -38,6 +60,7 @@ const GithubState = (props) => {
         user: state.user,
         repos: state.repos,
         loading: state.loading,
+        searchUsers,
       }}
     >
       {props.children}

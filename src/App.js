@@ -1,4 +1,3 @@
-import "./App.css";
 import React, { Fragment, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
@@ -8,6 +7,8 @@ import Search from "./components/users/Search";
 import About from "./components/pages/About";
 import axios from "axios";
 import Alert from "./components/users/Alert";
+import GithubState from "./context/github/GithubState";
+import "./App.css";
 
 export default function App() {
   const [users, setUsers] = useState([]);
@@ -60,42 +61,44 @@ export default function App() {
   };
 
   return (
-    <Router>
-      <div className="App">
-        <Navbar />
-        <div className="container">
-          <Alert alert={alert} />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Fragment>
-                  <Search
-                    searchUsers={searchUsers}
-                    clearUsers={clearUsers}
-                    users={users}
-                    displayAlert={displayAlert}
+    <GithubState>
+      <Router>
+        <div className="App">
+          <Navbar />
+          <div className="container">
+            <Alert alert={alert} />
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Fragment>
+                    <Search
+                      searchUsers={searchUsers}
+                      clearUsers={clearUsers}
+                      users={users}
+                      displayAlert={displayAlert}
+                    />
+                    <Users loading={loading} users={users} />
+                  </Fragment>
+                }
+              />
+              <Route excact path="/about" element={<About />} />
+              <Route
+                path={`/user/:id`}
+                element={
+                  <User
+                    getUser={getUser}
+                    getUserRepos={getUserRepos}
+                    repos={repos}
+                    user={user}
+                    loading={loading}
                   />
-                  <Users loading={loading} users={users} />
-                </Fragment>
-              }
-            />
-            <Route excact path="/about" element={<About />} />
-            <Route
-              path={`/user/:id`}
-              element={
-                <User
-                  getUser={getUser}
-                  getUserRepos={getUserRepos}
-                  repos={repos}
-                  user={user}
-                  loading={loading}
-                />
-              }
-            />
-          </Routes>
+                }
+              />
+            </Routes>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </GithubState>
   );
 }

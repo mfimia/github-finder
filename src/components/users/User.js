@@ -1,12 +1,13 @@
 import { useEffect, Fragment } from "react";
 import Spinner from "../layout/Spinner";
+import Repos from "../repos/Repos";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-const User = ({ getUser, user, loading }) => {
-  console.log(user);
+const User = ({ getUser, user, loading, repos, getUserRepos }) => {
   useEffect(() => {
     getUser(user.login);
+    getUserRepos(user.login);
   }, []);
 
   const {
@@ -29,6 +30,8 @@ const User = ({ getUser, user, loading }) => {
     loading: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired,
     getUser: PropTypes.func.isRequired,
+    getUserRepos: PropTypes.func.isRequired,
+    repos: PropTypes.array.isRequired,
   };
 
   if (loading) return <Spinner />;
@@ -96,6 +99,7 @@ const User = ({ getUser, user, loading }) => {
         <div className="badge badge-light">Public Repos: {public_repos}</div>
         <div className="badge badge-dark">Public Gists: {public_gists}</div>
       </div>
+      <Repos repos={repos} />
     </Fragment>
   );
 };

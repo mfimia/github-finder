@@ -14,7 +14,8 @@ export default function App() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({ msg: null, type: null });
-  //   const [user, setUser] = useState({});
+  const [user, setUser] = useState({});
+  const [repos, setRepos] = useState([]);
 
   //   const userLogin = useRouteMatch("/user/:login");
   // Search GitHub users via GitHub API
@@ -39,6 +40,17 @@ export default function App() {
   //     setUser(res.data);
   //     setLoading(false);
   //   };
+
+  //   Get user repos
+  const getUserRepos = async (username) => {
+    setLoading(true);
+    const res = await axios.get(
+      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:adc&client_id=
+      ${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+    setRepos(res.data);
+    setLoading(false);
+  };
 
   const clearUsers = () => setUsers([]);
 
@@ -69,9 +81,11 @@ export default function App() {
               }
             />
             <Route excact path="/about" element={<About />} />
+            {/* How to set the route so it takes the login info dynamically? */}
+            {/* props => {...props} */}
             {/* <Route
               path="/user/:login"
-              element={<User getUser={getUser} user={user} loading={loading} />}
+              element={<User getUser={getUser} getUserRepos={getUserRepos} repos={repos} user={user} loading={loading} />}
             /> */}
           </Routes>
         </div>

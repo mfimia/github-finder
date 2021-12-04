@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 
 const UserItem = ({ user }) => {
   const { login, avatar_url } = user;
+  console.log(user);
   return (
-    <div className="card text-center">
+    <div id={user.id} className="card text-center">
       <img
         src={avatar_url}
         alt=""

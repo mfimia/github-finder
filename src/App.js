@@ -1,10 +1,9 @@
 import "./App.css";
 import React, { Fragment, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import { useRouteMatch } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Users from "./components/users/Users";
-// import User from "./components/users/User";
+import User from "./components/users/User";
 import Search from "./components/users/Search";
 import About from "./components/pages/About";
 import axios from "axios";
@@ -17,7 +16,6 @@ export default function App() {
   const [user, setUser] = useState({});
   const [repos, setRepos] = useState([]);
 
-  //   const userLogin = useRouteMatch("/user/:login");
   // Search GitHub users via GitHub API
   const searchUsers = (text) => {
     setLoading(true);
@@ -32,17 +30,19 @@ export default function App() {
   };
 
   // Get single GitHub user via GitHub API
-  //   const getUser = async (username) => {
-  //     setLoading(true);
-  //     const res = await axios.get(
-  //       `https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
-  //     );
-  //     setUser(res.data);
-  //     setLoading(false);
-  //   };
+  const getUser = async (username) => {
+    setLoading(true);
+    const res = await axios.get(
+      `https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=
+      ${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+    setUser(res.data);
+    setLoading(false);
+  };
 
   //   Get user repos
   const getUserRepos = async (username) => {
+    console.log(username);
     setLoading(true);
     const res = await axios.get(
       `https://api.github.com/users/${username}/repos?per_page=5&sort=created:adc&client_id=
@@ -81,12 +81,18 @@ export default function App() {
               }
             />
             <Route excact path="/about" element={<About />} />
-            {/* How to set the route so it takes the login info dynamically? */}
-            {/* props => {...props} */}
-            {/* <Route
-              path="/user/:login"
-              element={<User getUser={getUser} getUserRepos={getUserRepos} repos={repos} user={user} loading={loading} />}
-            /> */}
+            <Route
+              path={`/user/:id`}
+              element={
+                <User
+                  getUser={getUser}
+                  getUserRepos={getUserRepos}
+                  repos={repos}
+                  user={user}
+                  loading={loading}
+                />
+              }
+            />
           </Routes>
         </div>
       </div>

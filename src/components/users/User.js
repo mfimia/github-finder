@@ -2,12 +2,14 @@ import { useEffect, Fragment } from "react";
 import Spinner from "../layout/Spinner";
 import Repos from "../repos/Repos";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const User = ({ getUser, user, loading, repos, getUserRepos }) => {
+  const { id } = useParams();
   useEffect(() => {
-    getUser(user.login);
-    getUserRepos(user.login);
+    getUser(id);
+    getUserRepos(id);
+    // eslint-disable-next-line
   }, []);
 
   const {
@@ -25,14 +27,6 @@ const User = ({ getUser, user, loading, repos, getUserRepos }) => {
     hireable,
     company,
   } = user;
-
-  User.propTypes = {
-    loading: PropTypes.bool.isRequired,
-    user: PropTypes.object.isRequired,
-    getUser: PropTypes.func.isRequired,
-    getUserRepos: PropTypes.func.isRequired,
-    repos: PropTypes.array.isRequired,
-  };
 
   if (loading) return <Spinner />;
 
@@ -65,7 +59,7 @@ const User = ({ getUser, user, loading, repos, getUserRepos }) => {
               <p>{bio}</p>
             </Fragment>
           )}
-          <a hrf={html_url} className="btn btn-dark my-1">
+          <a href={html_url} className="btn btn-dark my-1">
             Visit GitHub profile
           </a>
           <ul>
@@ -102,6 +96,14 @@ const User = ({ getUser, user, loading, repos, getUserRepos }) => {
       <Repos repos={repos} />
     </Fragment>
   );
+};
+
+User.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired,
+  getUser: PropTypes.func.isRequired,
+  getUserRepos: PropTypes.func.isRequired,
+  repos: PropTypes.array.isRequired,
 };
 
 export default User;

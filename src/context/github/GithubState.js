@@ -24,7 +24,7 @@ const GithubState = (props) => {
   const [state, dispatch] = useReducer(GithubReducer, initialState);
 
   // ----------------------
-  // Every action thata involves the state is declared below
+  // Every action that involves the state is declared below
   // ----------------------
 
   // Search Users

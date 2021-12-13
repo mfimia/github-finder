@@ -21,7 +21,7 @@ export default function App() {
               <Alert />
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route excact path="/about" element={<About />} />
+                <Route exact path="/about" element={<About />} />
                 <Route path={`/user/:id`} element={<User />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
